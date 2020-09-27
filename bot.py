@@ -31,6 +31,7 @@ async def called_once_a_day():
     minutes = (time_until_message.total_seconds()//60) % 60
     seconds = round(time_until_message.total_seconds() - hours * 3600 - minutes * 60)
     print("Reminder Set.")
+    print(f"Current Time: {the_time}")
     print("Waiting for {0:.0f} hours, {1:.0f} minutes, {2} seconds.".format(hours, minutes, seconds))
 
     await asyncio.sleep(time_until_message.total_seconds())
