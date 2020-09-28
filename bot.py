@@ -58,7 +58,7 @@ async def toggle_reminders(ctx):
         await ctx.channel.send("Colosseum reminders are now on.")
 
 @bot.command(name="setchannel")
-async def set_reminder_channel(ctx, str_channel_id):
+async def set_reminder_channel(ctx, str_channel_id=None):
     if str_channel_id is None:
         message_channel = ctx.channel
     else:
