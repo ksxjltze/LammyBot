@@ -1,7 +1,7 @@
 # bot.py
 import os
 import asyncio
-from datetime import datetime, date, timedelta
+from datetime import datetime, date, timedelta, timezone
 
 from discord.ext import commands, tasks
 from discord.utils import get
@@ -12,6 +12,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = commands.Bot(command_prefix='!')
 bot.target_channel_id = 0
+timezone = timezone(timedelta(hours=8))
 
 @tasks.loop(hours=24)
 async def called_once_a_day():
@@ -20,9 +21,9 @@ async def called_once_a_day():
         bot.target_channel_id = channel.id
         print(f"Setting reminder channel to general channel ({channel.id})")
 
-    the_time = datetime.now()
+    the_time = datetime.now(tz=timezone)
 
-    colosseum_time = datetime(the_time.year, the_time.month, the_time.day, 20)
+    colosseum_time = datetime(the_time.year, the_time.month, the_time.day, 22, 0, 0, 0, timezone)
     time_until_colosseum = colosseum_time - the_time
     time_offset = timedelta(minutes=5)
     time_until_message = time_until_colosseum - time_offset
@@ -35,7 +36,7 @@ async def called_once_a_day():
     print("Waiting for {0:.0f} hours, {1:.0f} minutes, {2} seconds.".format(hours, minutes, seconds))
 
     await asyncio.sleep(time_until_message.total_seconds())
-    message_channel = bot.get_channel(target_channel_id)
+    message_channel = bot.get_channel(bot.target_channel_id)
     await message_channel.send("@here 5min")
 
 @called_once_a_day.before_loop
