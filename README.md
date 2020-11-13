@@ -1,2 +1,2 @@
 # LammyBot
-Simple Bot for SINoALICE
+Simple Reminder Bot for SINoALICE
